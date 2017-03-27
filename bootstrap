@@ -1,10 +1,6 @@
 #!/bin/bash
 
-echo "Setting up environment"
-mkdir -p /htn
-gsutil cp gs://hackthenorth-hapi/internal/get_metadata.sh /htn/get_metadata.sh
-gsutil cp gs://hackthenorth-hapi/internal/use_env /htn/use_env
-/htn/get_metadata.sh
+/htn/get_metadata
 source /htn/metadata.sh
 
 echo "Installing supervisor and virtualenv"
