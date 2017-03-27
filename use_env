@@ -1,7 +1,7 @@
 #!/bin/bash
 
 set -o allexport
-source /htn/metadata.sh
+source /srv/metadata.sh
 set +o allexport
 
 $1 "${@:2}"

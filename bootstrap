@@ -1,15 +1,27 @@
 #!/bin/bash
 
-/htn/get_metadata
-source /htn/metadata.sh
+/srv/get_metadata
+source /srv/metadata.sh
 
-echo "Installing supervisor and virtualenv"
+echo "Installing supervisor, nginx"
 apt-get update
-apt-get install supervisor python-pip -y
+apt-get install supervisor nginx python-pip -y >/dev/null
+
+echo "Installing virtualenv"
 pip install virtualenv
+
+echo "Reloading nginx, removing default site"
+rm -f /etc/nginx/sites-enabled/default
+nginx -s reload
 
 echo "Cloning repos"
 for repo in $REPOS; do
-  gcloud source repos clone $repo /htn/$repo
+  echo "Successfully cloned $repo"
+  gcloud source repos clone $repo /srv/$repo
   mkdir -p /var/log/$repo
+  echo "Starting $repo bootstrap"
+  /srv/$repo/scripts/prod/bootstrap
+  echo "Completed $repo bootstrap"
 done
+echo "Bootstrapping done"
+touch /srv/.bootstrap_complete

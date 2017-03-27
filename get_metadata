@@ -1,17 +1,17 @@
 #!/bin/bash
 set -e
 
-mkdir -p /htn
+mkdir -p /srv
 metadata_keys=$(curl "http://metadata.google.internal/computeMetadata/v1/instance/attributes/" -H "Metadata-Flavor: Google" 2>/dev/null)
 
 echo "Found metadata: $metadata_keys"
 
-rm -f /htn/metadata.sh 2>/dev/null
+rm -f /srv/metadata.sh 2>/dev/null
 
 for key in $metadata_keys; do
   value=$(curl "http://metadata.google.internal/computeMetadata/v1/instance/attributes/$key" -H "Metadata-Flavor: Google" 2>/dev/null)
-  echo "export $key=$value" >> /htn/metadata.sh
+  echo "export $key=$value" >> /srv/metadata.sh
   echo "Got $key=$value"
 done
 
-echo "Done. Metadata stored in /htn/metadata.sh"
+echo "Done. Metadata stored in /srv/metadata.sh"
