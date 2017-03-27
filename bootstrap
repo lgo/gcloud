@@ -4,8 +4,7 @@
 source /htn/metadata.sh
 
 echo "Installing supervisor and virtualenv"
-apt-get install supervisor
-apt-get install python-pip
+apt-get install supervisor python-pip -y
 pip install virtualenv
 
 echo "Cloning repos"
