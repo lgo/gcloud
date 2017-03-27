@@ -4,6 +4,7 @@
 source /htn/metadata.sh
 
 echo "Installing supervisor and virtualenv"
+apt-get update
 apt-get install supervisor python-pip -y
 pip install virtualenv
 
