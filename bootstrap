@@ -1,0 +1,19 @@
+#!/bin/bash
+
+echo "Setting up environment"
+mkdir -p /htn
+gsutil cp gs://hackthenorth-hapi/internal/get_metadata.sh /htn/get_metadata.sh
+gsutil cp gs://hackthenorth-hapi/internal/use_env /htn/use_env
+/htn/get_metadata.sh
+source /htn/metadata.sh
+
+echo "Installing supervisor and virtualenv"
+apt-get install supervisor
+apt-get install python-pip
+pip install virtualenv
+
+echo "Cloning repos"
+for repo in $REPOS; do
+  gcloud source repos clone $repo /htn/$repo
+  mkdir -p /var/log/$repo
+done
