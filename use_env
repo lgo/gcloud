@@ -4,4 +4,9 @@ set -o allexport
 source /srv/metadata.sh
 set +o allexport
 
-$1 "${@:2}"
+# exec is very important
+# otherwise deamonizers such as supervisor won't work properly against
+# our targetted executable
+# e.g. with Gunicorn this sends a signal and kills and reloads the master
+# as opposed to signalling the master to reload workers
+exec $1 "${@:2}"
